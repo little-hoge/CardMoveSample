@@ -11,6 +11,11 @@
 - unity2019.2.0f1  unity日本語化(https://www.sejuku.net/blog/56333)
 - Visual C# 2019
 
+# 使い方
+1. [CardMoveSample.unitypackage](https://github.com/little-hoge/CardMoveSample/releases/download/v1.0/CardMoveSample.unitypackage)をインポートする。
+1. DestinationとCardをシーンに追加する。  
+[<img src="https://user-images.githubusercontent.com/3638785/92775637-8ac76e80-f3d9-11ea-9a87-3e5af809961d.gif" width=50%>](https://little-hoge.github.io/DrawLineSample/)
+
 #### 実装
 - 【Unity】プログレスバーを使ったタイマー  
 http://kerotan-factory.xblog.jp/article/473783356.html
