@@ -30,19 +30,15 @@ public class DragAndDrop : MonoBehaviour, IDragHandler {
         // 自分のカード
         if (transform.tag == "PlayerCard") {
             for (int i = 0; i < playerDest.Length; i++) {
-                switch (transform.name) {
-                    case "Card":
-                        if (playerDest[i].name == "Destination") destPos = playerDest[i].transform;
-                        break;
-                    case "Card (1)":
-                        if (playerDest[i].name == "Destination (1)") destPos = playerDest[i].transform;
-                        break;
-                    case "Card (2)":
-                        if (playerDest[i].name == "Destination (2)") destPos = playerDest[i].transform;
-                        break;
-                    default:
-                        Debug.Log("想定外");
-                        break;
+
+                var cardStr = "Card (" + i + ")";
+                var destStr = "Destination (" + i + ")";
+
+                if (transform.name == "Card") {
+                    if (playerDest[i].name == "Destination") destPos = playerDest[i].transform;
+                }
+                else if (transform.name == cardStr) {
+                    if (playerDest[i].name == destStr) destPos = playerDest[i].transform;
                 }
             }
         }
@@ -81,7 +77,6 @@ public class DragAndDrop : MonoBehaviour, IDragHandler {
         transform.transform.rotation = Quaternion.FromToRotation(Vector3.up, vec);
     }
 
-
     public void OnDrag(PointerEventData data) {
         Vector3 TargetPos = Camera.main.ScreenToWorldPoint(data.position);
         TargetPos.z = 0;
@@ -107,8 +102,6 @@ public class DragAndDrop : MonoBehaviour, IDragHandler {
     /// <param name="y2"> オブジェクト２のＹ座標 </param>
     /// <returns>２点間の距離/returns>
     public double getDistance(double x, double y, double x2, double y2) {
-        double distance = System.Math.Sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
-
-        return distance;
+        return System.Math.Sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
     }
 }
