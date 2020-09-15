@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragAndDrop : MonoBehaviour, IDragHandler {
+public class CardMoveManager : MonoBehaviour, IDragHandler {
 
     /// <summary> 横操作の制限 </summary>
     private const float limitPosMinX = -2.3f, limitPosMaxX = 2.3f;
@@ -50,20 +50,14 @@ public class DragAndDrop : MonoBehaviour, IDragHandler {
 
         var lastPosition = Position;
 
-        rad = Mathf.Atan2(
-            destPos.transform.position.y - transform.position.y,
-            destPos.transform.position.x - transform.position.x);
-
         transform.position = destPos.transform.position;
 
         // 移動
         Position.x += moveSpeed * Mathf.Cos(rad);
         Position.y += moveSpeed * Mathf.Sin(rad);
 
-
         // 移動距離が一定以上の時移動
-        if (getDistance(lastPosition.x, lastPosition.y,
-            transform.position.x, transform.position.y) > moveSpeed) {
+        if (Vector2.Distance(lastPosition, transform.position) > moveSpeed) {
 
             // 位置更新
             transform.position = Position;
@@ -82,7 +76,7 @@ public class DragAndDrop : MonoBehaviour, IDragHandler {
         TargetPos.z = 0;
         destPos.transform.position = TargetPos;
 
-        // Clamp関数で制限する
+        // 範囲制限
         destPos.transform.position = new Vector3(
                   Mathf.Clamp(destPos.transform.position.x, limitPosMinX, limitPosMaxX),
                   Mathf.Clamp(destPos.transform.position.y, limitPosMinY, limitPosMaxY),
@@ -91,17 +85,5 @@ public class DragAndDrop : MonoBehaviour, IDragHandler {
         rad = Mathf.Atan2(
             destPos.transform.position.y - transform.position.y,
             destPos.transform.position.x - transform.position.x);
-    }
-
-    /// <summary>
-    /// ２点間の距離を取得
-    /// </summary>
-    /// <param name="x"> オブジェクト１のＸ座標 </param>
-    /// <param name="y"> オブジェクト１のＹ座標 </param>
-    /// <param name="x2"> オブジェクト２のＸ座標 </param>
-    /// <param name="y2"> オブジェクト２のＹ座標 </param>
-    /// <returns>２点間の距離/returns>
-    public double getDistance(double x, double y, double x2, double y2) {
-        return System.Math.Sqrt((x2 - x) * (x2 - x) + (y2 - y) * (y2 - y));
     }
 }
