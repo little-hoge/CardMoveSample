@@ -23,24 +23,24 @@
 //    /// <summary> 現在再生中のTween </summary>
 //    private Tween tween;
 
-//   // Sequence mySequence = DOTween.Sequence();
+//    // Sequence mySequence = DOTween.Sequence();
 //    private void Start() {
-//        playerDest = GameObject.FindGameObjectsWithTag("PlayerDestination");
+//        var playerDest = GameObject.Find("DestGroup").transform;
 
-//        // 自分のカード
-//        if (transform.tag == "PlayerCard") {
-//            for (int i = 0; i < playerDest.Length; i++) {
+//        // カード情報
+//        int index = 0;
+//        foreach (Transform childTransform in playerDest) {
+//            var destStr = "Destination (" + index + ")";
+//            var cardStr = "Card (" + index + ")";
 
-//                var cardStr = "Card (" + i + ")";
-//                var destStr = "Destination (" + i + ")";
-
-//                if (transform.name == "Card") {
-//                    if (playerDest[i].name == "Destination") destPos = playerDest[i].transform;
-//                }
-//                else if (transform.name == cardStr) {
-//                    if (playerDest[i].name == destStr) destPos = playerDest[i].transform;
-//                }
+//            // 自分の目的地オブジェクト検索
+//            if ((childTransform.name == "Destination" && this.transform.name == "Card")
+//                || (childTransform.name == destStr && this.transform.name == cardStr)
+//                ) {
+//                destPos = childTransform.transform;
+//                break;
 //            }
+//            index++;
 //        }
 //    }
 

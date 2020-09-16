@@ -342,7 +342,7 @@ GameObject:
   - component: {fileID: 516215251}
   - component: {fileID: 516215252}
   m_Layer: 5
-  m_Name: Sort
+  m_Name: DestGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,7 +489,7 @@ GameObject:
   - component: {fileID: 770391456}
   - component: {fileID: 770391457}
   m_Layer: 5
-  m_Name: Sort
+  m_Name: CardGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

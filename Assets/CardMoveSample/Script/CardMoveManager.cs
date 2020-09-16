@@ -21,26 +21,24 @@ public class CardMoveManager : MonoBehaviour, IDragHandler {
     /// <summary> 現在位置 </summary>
     private Vector3 Position;
 
-    /// <summary> 自分の目的地リスト </summary>
-    GameObject[] playerDest = null;
-
     private void Start() {
-        playerDest = GameObject.FindGameObjectsWithTag("PlayerDestination");
 
-        // 自分のカード
-        if (transform.tag == "PlayerCard") {
-            for (int i = 0; i < playerDest.Length; i++) {
+        var playerDest = GameObject.Find("DestGroup").transform;
 
-                var cardStr = "Card (" + i + ")";
-                var destStr = "Destination (" + i + ")";
+        // カード情報
+        int index = 0;
+        foreach (Transform childTransform in playerDest) {
+            var destStr = "Destination (" + index + ")";
+            var cardStr = "Card (" + index + ")";
 
-                if (transform.name == "Card") {
-                    if (playerDest[i].name == "Destination") destPos = playerDest[i].transform;
-                }
-                else if (transform.name == cardStr) {
-                    if (playerDest[i].name == destStr) destPos = playerDest[i].transform;
-                }
+            // 自分の目的地オブジェクト検索
+            if ((childTransform.name == "Destination" && this.transform.name == "Card")
+                || (childTransform.name == destStr && this.transform.name == cardStr)
+                ) {
+                destPos = childTransform.transform;
+                break;
             }
+            index++;
         }
 
         Position = new Vector2(destPos.position.x, destPos.position.y);
