@@ -5,41 +5,32 @@ using UnityEngine.UI;
 
 public class CardFrameColorSet : MonoBehaviour {
 
-    // サンプル用
-    private const int defaultPosX = -260;
-    private const int posX = 150;
-    private const int playertPosY = -30;
+    // 
+    CardManager cardManager;
 
     // Start is called before the first frame update
     void Start() {
+        cardManager = GameObject.Find("CardManager").GetComponent<CardManager>();
+
+        // 読み込み完了後
+        Invoke("Init", 0.2f);
+       
+    }
+
+    private void Init() {
+        var playerCard = cardManager.GetPlayerCard();
+        var playerDest = cardManager.GetPlayerDest();
+
         Color[] ColorArray = { Color.red, Color.green, Color.blue, Color.cyan, Color.magenta, Color.yellow, Color.white, new Color(1.0f, 0.5f, 0.0f, 1.0f) };
         ColorArray = Shuffle(ColorArray, ColorArray.Length);
 
-        var playerCard = GameObject.Find("CardGroup").transform;
-        var playerDest = GameObject.Find("DestGroup").transform;
-
-        // カード情報
-        int index = 0;
-        foreach (Transform childTransform in playerCard) {
-            var cardStr = "Card (" + index + ")";
-            if (childTransform.name == "Card" || childTransform.name == cardStr) {
-                childTransform.GetComponent<Image>().color = ColorArray[index];
-                childTransform.localPosition = new Vector3(defaultPosX + posX * index, playertPosY, 0);
-                childTransform.localPosition = new Vector3(defaultPosX + posX * index, playertPosY, 0);
-            }
-            index++;
+        // 初期設定
+        for (int index = 0; index < playerCard.Length; index++) {
+            playerCard[index].GetComponent<Image>().color = ColorArray[index];
         }
-        
-        index = 0;
-        foreach (Transform childTransform in playerDest) {
-            var cardStr = "Destination (" + index + ")";
-            if (childTransform.name == "Destination" || childTransform.name == cardStr) {
-                childTransform.GetComponent<Image>().color = ColorArray[index];
-                childTransform.localPosition = new Vector3(defaultPosX + posX * index, playertPosY, 0);
-                childTransform.localPosition = new Vector3(defaultPosX + posX * index, playertPosY, 0);
-            }
-            index++;
-        }
+        for (int index = 0; index < playerDest.Length; index++) {
+            playerDest[index].GetComponent<Image>().color = ColorArray[index];
+           }
 
     }
 

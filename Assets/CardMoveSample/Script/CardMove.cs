@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class CardMoveManager : MonoBehaviour, IDragHandler {
+public class CardMove : MonoBehaviour, IDragHandler {
 
     /// <summary> 横操作の制限 </summary>
     private const float limitPosMinX = -2.3f, limitPosMaxX = 2.3f;
@@ -21,9 +21,15 @@ public class CardMoveManager : MonoBehaviour, IDragHandler {
     /// <summary> 現在位置 </summary>
     private Vector3 Position;
 
+    /// <summary> 選択状態 </summary>
+    public bool select;
+
+    /// <summary> 選択された時の位置 </summary>
+    public Vector3 selectCardPos, selectCursorPos;
+
     private void Start() {
 
-        var playerDest = GameObject.Find("DestGroup").transform;
+        var playerDest = GameObject.Find("PlayerDest").transform;
 
         // カード情報
         int index = 0;
@@ -45,6 +51,11 @@ public class CardMoveManager : MonoBehaviour, IDragHandler {
     }
 
     private void Update() {
+
+        // 複数選択されていた時
+        if (select) {
+            SelectAngleCalc();
+        }
 
         var lastPosition = Position;
 
@@ -69,10 +80,10 @@ public class CardMoveManager : MonoBehaviour, IDragHandler {
         transform.transform.rotation = Quaternion.FromToRotation(Vector3.up, vec);
     }
 
-    public void OnDrag(PointerEventData data) {
-        Vector3 TargetPos = Camera.main.ScreenToWorldPoint(data.position);
-        TargetPos.z = 0;
-        destPos.transform.position = TargetPos;
+    /// <summary>
+    /// 進行方向設定
+    /// </summary>
+    public void AngleSet() {
 
         // 範囲制限
         destPos.transform.position = new Vector3(
@@ -83,5 +94,25 @@ public class CardMoveManager : MonoBehaviour, IDragHandler {
         rad = Mathf.Atan2(
             destPos.transform.position.y - transform.position.y,
             destPos.transform.position.x - transform.position.x);
+    }
+
+    /// <summary>
+    /// 選択カード方向計算
+    /// </summary>
+    public void SelectAngleCalc() {
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        screenPos.z = 0;
+        var Pos = screenPos;
+        Pos.x = selectCardPos.x + (screenPos.x - selectCursorPos.x);
+        Pos.y = selectCardPos.y + (screenPos.y - selectCursorPos.y);
+        destPos.position = Pos;
+        AngleSet();
+    }
+
+    public void OnDrag(PointerEventData data) {
+        Vector3 screenPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        screenPos.z = 0;
+        destPos.position = screenPos;
+        AngleSet();
     }
 }
